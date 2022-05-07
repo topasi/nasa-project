@@ -1,1 +1,1 @@
-**/*.logs
+*.pnpm-debug.log
