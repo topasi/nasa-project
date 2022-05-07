@@ -1,0 +1,20 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 error pnpm": {
+    "errno": 1,
+    "code": "ELIFECYCLE",
+    "pkgid": "nasa-project@1.0.0",
+    "stage": "deploy:cluster",
+    "script": "pnpm -C ./client run build && pnpm -C ./server run cluster",
+    "pkgname": "nasa-project",
+    "err": {
+      "name": "pnpm",
+      "message": "nasa-project@1.0.0 deploy:cluster: `pnpm -C ./client run build && pnpm -C ./server run cluster`\nExit status 1",
+      "code": "ELIFECYCLE",
+      "stack": "pnpm: nasa-project@1.0.0 deploy:cluster: `pnpm -C ./client run build && pnpm -C ./server run cluster`\nExit status 1\n    at EventEmitter.<anonymous> (/home/rapzki03/.config/yarn/global/node_modules/pnpm/dist/pnpm.cjs:106732:20)\n    at EventEmitter.emit (node:events:526:28)\n    at ChildProcess.<anonymous> (/home/rapzki03/.config/yarn/global/node_modules/pnpm/dist/pnpm.cjs:93301:18)\n    at ChildProcess.emit (node:events:526:28)\n    at maybeClose (node:internal/child_process:1090:16)\n    at Process.ChildProcess._handle.onexit (node:internal/child_process:302:5)"
+    }
+  },
+  "2 warn pnpm:global": " Local package.json exists, but node_modules missing, did you mean to install?"
+}

@@ -1,0 +1,23 @@
+{
+    "name": "nasa-project",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "install-server": "pnpm -C ./server install",
+        "install-client": "pnpm -C ./client install",
+        "install": "pnpm run install-server && pnpm run install-client",
+        "watch-server": "pnpm -C ./server run watch",
+        "watch-client": "pnpm -C ./client run start",
+        "watch": "pnpm run watch-server & pnpm run watch-client",
+        "test-server": "pnpm -C ./server run test",
+        "test-client": "pnpm -C ./client run test",
+        "test": "pnpm run test-server && pnpm run test-client",
+        "test:watch": "pnpm run test --watch",
+        "deploy": "pnpm -C ./client run build && pnpm -C ./server start",
+        "deploy:cluster": "pnpm -C ./client run build && pnpm -C ./server run cluster"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}
