@@ -3,7 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
 
-const apiRouter = require('./routes')
+const v1Router = require('./routes/v1')
 
 const app = express()
 
@@ -25,7 +25,7 @@ app.use(express.json())
 
 app.use(express.static(path.join(__dirname, '..', 'public')))
 
-app.use('/api', apiRouter)
+app.use('/v1', v1Router)
 
 app.get('/*', (req, res) => {
     return res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))

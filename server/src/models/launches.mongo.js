@@ -13,13 +13,12 @@ const lanuchesSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    lauchDate: {
+    launchDate: {
         type: Date,
         required: true,
     },
     target: {
         type: String,
-        require: true,
     },
     customers: [String],
     upcoming: {
