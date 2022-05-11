@@ -15,6 +15,8 @@ jobs:
       MONGO_URI: mongodb://localhost/nasa
     strategy:
       matrix:
+        pnpm-version:
+          - '7'
         node-version:
           - '14.x'
           - '16.x'
@@ -30,11 +32,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - uses: pnpm/action-setup@v2.0.1
-        name: Install pnpm
+      - name: Install pnpm
         id: pnpm-install
+        uses: pnpm/action-setup@v2.0.1
         with:
-          version: 7
+          version: ${{ matrix.pnpm-version }}
           run_install: false
 
       - name: Get pnpm store directory
@@ -42,8 +44,8 @@ jobs:
         run: |
           echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
 
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -61,5 +63,5 @@ jobs:
       - name: Build client
         run: pnpm run build
 
-      - name: Test server
+      - name: Test client and server
         run: pnpm run test
