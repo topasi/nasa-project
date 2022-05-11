@@ -12,19 +12,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        name: install checkout
+      - name: install checkout
+        uses: actions/checkout@v2
  
-      - uses: actions/setup-node@v2
-        name: install node version 16
+      - name: install node.js
+        uses: actions/setup-node@v2
         with:
           node-version: '16'
 
       - uses: pnpm/action-setup@v2.0.1
+        name: install pnpm
         id: pnpm-install
-        name: install pnpm version 7.0.1
         with:
-          version: 7.0.1
+          version: 7
           run_install: false
 
       - name: get pnpm store directory
@@ -33,7 +33,7 @@ jobs:
           echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
 
       - uses: actions/cache@v3
-        name: Setup pnpm cache
+        name: setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -42,4 +42,3 @@ jobs:
 
       - name: install dependencies
         run: pnpm install
-        run: pnpm run deploy
