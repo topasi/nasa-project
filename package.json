@@ -14,8 +14,9 @@
         "test-client": "pnpm -C ./client run test",
         "test": "pnpm run test-server && pnpm run test-client",
         "test:watch": "pnpm run test --watch",
-        "deploy": "pnpm -C ./client run build && pnpm -C ./server start",
-        "deploy:cluster": "pnpm -C ./client run build && pnpm -C ./server run cluster"
+        "build": "pnpm -C ./client run build",
+        "deploy": "pnpm run build && pnpm -C ./server start",
+        "deploy:cluster": "pnpm run build && pnpm -C ./server run cluster"
     },
     "keywords": [],
     "author": "",
