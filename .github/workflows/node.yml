@@ -10,38 +10,56 @@ on:
 
 jobs:
   build:
+    env:
+      CI: true
+      MONGO_URI: mongodb://localhost/nasa
+    strategy:
+      matrix:
+        node-version:
+          - '14.x'
+          - '16.x'
+        mongodb-version:
+          - '4.4'
     runs-on: ubuntu-latest
     steps:
-      - name: install checkout
+      - name: Install checkout
         uses: actions/checkout@v2
  
-      - name: install node.js
+      - name: Install node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: ${{ matrix.node-version }}
 
       - uses: pnpm/action-setup@v2.0.1
-        name: install pnpm
+        name: Install pnpm
         id: pnpm-install
         with:
           version: 7
           run_install: false
 
-      - name: get pnpm store directory
+      - name: Get pnpm store directory
         id: pnpm-cache
         run: |
           echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
 
       - uses: actions/cache@v3
-        name: setup pnpm cache
+        name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: install dependencies
+      - name: Install mongodb
+        uses: supercharge/mongodb-github-action@1.6.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+
+      - name: Install dependencies
         run: pnpm run install
 
-      - name: build client
+      - name: Build client
         run: pnpm run build
+
+      - name: Test server
+        run: pnpm run test-server
