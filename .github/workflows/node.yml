@@ -1,4 +1,5 @@
 name: NASA Project CI
+
 on:
   push:
     branches:
@@ -6,14 +7,39 @@ on:
   pull_request:
     branches:
       - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Uses Node.js version 16
-        uses: actions/setup-node@v2
+        name: install checkout
+ 
+      - uses: actions/setup-node@v2
+        name: install node version 16
         with:
           node-version: '16'
-      - run: npm install
-      - run: npm run deploy
+
+      - uses: pnpm/action-setup@v2.0.1
+        id: pnpm-install
+        name: install pnpm version 7.0.1
+        with:
+          version: 7.0.1
+          run_install: false
+
+      - name: get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: install dependencies
+        run: pnpm install
+        run: pnpm run deploy
