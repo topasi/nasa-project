@@ -13,7 +13,14 @@ mongoose.connection.on('error', (err) => {
 })
 
 async function mongoConnect() {
-    await mongoose.connect(MONGO_URI)
+    await mongoose.connect(MONGO_URI, {
+        keepAlive: true,
+        keepAliveInitialDelay: 300000,
+        connectTimeoutMS: 60000,
+        maxPoolSize: 10,
+        serverSelectionTimeoutMS: 5000,
+        socketTimeoutMS: 60000,
+    })
 }
 
 async function mongoDisconnect() {
